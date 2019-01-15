@@ -14,7 +14,8 @@ import java.io.File;
  */
 public class UpdateUtils {
 
-    public static String BASE_URL = "http://192.168.1.188/apps/";
+//    public static String BASE_URL = "http://192.168.1.188/apps/";
+    public static String BASE_URL = "https://www.jssgwl.com/apps/";
     public static String AUTHORITY = null;
 
     public static File zipTempDir(Context context){

@@ -37,7 +37,7 @@ publish {
     userOrg = 'voisen'
     groupId = 'com.zhicheng'
     artifactId = 'ffupdate-release'
-    publishVersion = '1.0.0'
+    publishVersion = '1.0.2'
     desc = 'auto update for cordova and android application !'
-    website = 'https://wowtop.github.io'
+    website = 'https://github.com/lyeday/FFUpdateSDK'
 }
