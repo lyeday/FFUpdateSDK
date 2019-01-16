@@ -77,9 +77,9 @@ public class CordovaResourceUpdate implements Application.ActivityLifecycleCallb
 
     public void restartApplication(){
         final Intent intent = mContext.getPackageManager().getLaunchIntentForPackage(mContext.getPackageName());
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         mContext.startActivity(intent);
-//        android.os.Process.killProcess(android.os.Process.myPid());
+        android.os.Process.killProcess(android.os.Process.myPid());
     }
 
     public void checkUpdate(){

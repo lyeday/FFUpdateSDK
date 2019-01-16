@@ -14,7 +14,7 @@ android 自升级插件
 
 ### 一、添加依赖
 
-##### 1. 先在`project`的`build.gradle`中添加仓库地址，否则无法正常下载依赖
+##### 1. 先在`project`的`build.gradle`中添加仓库地址(无法下载依赖时候添加)
 
 ````
 	allprojects {
