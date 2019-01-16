@@ -37,7 +37,7 @@ publish {
     userOrg = 'voisen'
     groupId = 'com.zhicheng'
     artifactId = 'ffupdate-release'
-    publishVersion = '1.0.2'
+    publishVersion = '1.1.0'
     desc = 'auto update for cordova and android application !'
     website = 'https://github.com/lyeday/FFUpdateSDK'
 }

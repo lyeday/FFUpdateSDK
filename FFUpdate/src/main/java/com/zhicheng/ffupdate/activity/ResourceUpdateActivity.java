@@ -94,7 +94,7 @@ public class ResourceUpdateActivity extends Activity {
         FFNetwork.download(UpdateUtils.BASE_URL+"appWeb.php/app/downloadUpdate?id="+id, zipFile, new FFNetwork.FFDownloadCallback() {
             @Override
             public void progress(final long complete, final long total) {
-                runOnUiThread(new Runnable() {
+                mHandle.post(new Runnable() {
                     @Override
                     public void run() {
                         float progress = complete*1.0f/total*100.0f;
@@ -118,7 +118,7 @@ public class ResourceUpdateActivity extends Activity {
     }
 
     private void unZipFile(){
-        runOnUiThread(new Runnable() {
+        mHandle.post(new Runnable() {
             @Override
             public void run() {
                 mTitleView.setText("正在释放资源文件...");

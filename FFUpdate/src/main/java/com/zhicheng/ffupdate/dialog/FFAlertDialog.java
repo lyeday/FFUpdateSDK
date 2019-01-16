@@ -43,7 +43,7 @@ public class FFAlertDialog extends Dialog implements View.OnClickListener {
     private LinearLayout mBtnsLayout;
 
     public FFAlertDialog(@NonNull Context context) {
-        super(context);
+        super(context,R.style.ff_dialog_style);
     }
 
     public FFAlertDialog(@NonNull Context context, int themeResId) {
@@ -148,6 +148,7 @@ public class FFAlertDialog extends Dialog implements View.OnClickListener {
         }
         WindowManager.LayoutParams layoutParams = getWindow().getAttributes();
         layoutParams.width = WindowManager.LayoutParams.MATCH_PARENT;
+        layoutParams.height = WindowManager.LayoutParams.WRAP_CONTENT;
         getWindow().setAttributes(layoutParams);
     }
 

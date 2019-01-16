@@ -136,6 +136,7 @@ public class FFUpdate implements Application.ActivityLifecycleCallbacks {
                                     .setAppReadyVersion(current)
                                     .setAppVersion(current)
                                     .save();
+                                    updateing = false;
                             return;
                         }
                         final int localVersion = spUtils.appVersion();

@@ -1,6 +1,7 @@
 package com.zhicheng.ffupdate;
 
 import android.app.Activity;
+import android.app.ActivityManager;
 import android.app.Application;
 import android.app.Dialog;
 import android.content.Context;
@@ -75,9 +76,10 @@ public class CordovaResourceUpdate implements Application.ActivityLifecycleCallb
     }
 
     public void restartApplication(){
-        Intent intentForPackage = mContext.getPackageManager().getLaunchIntentForPackage(mContext.getPackageName());
-        intentForPackage.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        mContext.startActivity(intentForPackage);
+        final Intent intent = mContext.getPackageManager().getLaunchIntentForPackage(mContext.getPackageName());
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        mContext.startActivity(intent);
+//        android.os.Process.killProcess(android.os.Process.myPid());
     }
 
     public void checkUpdate(){
