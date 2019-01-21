@@ -53,10 +53,12 @@ public class PackageUtils {
      * @return
      */
     public static int apkInstallStatus(Context context){
-        if (SPUtils.init(context).lastInstallTime() == 0){
+        SPUtils spUtils = SPUtils.init(context);
+        if (spUtils.lastInstallTime() == 0){
             return STATUS_FIRST_INSTALL;
         }
-        if (lastUpdateTime(context) == SPUtils.init(context).lastInstallTime()){
+        if (lastUpdateTime(context) == spUtils.lastInstallTime() ||
+                spUtils.appReadyVersion() == spUtils.appVersion()){
             return STATUS_NO_INSTALL;
         }
         return STATUS_RE_INSTALL;

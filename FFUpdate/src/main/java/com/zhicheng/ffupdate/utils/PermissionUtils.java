@@ -39,7 +39,9 @@ public class PermissionUtils {
         String[] permissions = new String[]{
                 Manifest.permission.WRITE_EXTERNAL_STORAGE,
                 Manifest.permission.INTERNET,
-                Manifest.permission.REQUEST_INSTALL_PACKAGES
+                Manifest.permission.REQUEST_INSTALL_PACKAGES,
+                Manifest.permission.BLUETOOTH,
+                Manifest.permission.READ_PHONE_STATE
         };
         ActivityCompat.requestPermissions(activity,permissions,100);
         SPUtils.init(activity).setIsRequestPermission(true).save();

@@ -3,7 +3,8 @@ package com.zhicheng.ffupdate.utils;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Build;
-import android.support.v4.content.FileProvider;
+
+import com.zhicheng.ffupdate.provider.FFFileProvider;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -79,6 +80,6 @@ public class FileUtils {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N){
             return Uri.fromFile(file);
         }
-        return FileProvider.getUriForFile(context,UpdateUtils.AUTHORITY,file);
+        return FFFileProvider.getUriForFile(context,UpdateUtils.AUTHORITY,file);
     }
 }

@@ -14,10 +14,12 @@
     <!-- 安卓8.0打开apk安装更新 -->
     <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
     <uses-permission android:name="android.permission.KILL_BACKGROUND_PROCESSES"/>
+    <uses-permission android:name="android.permission.BLUETOOTH"/>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
     <application>
         <provider
-            android:name="android.support.v4.content.FileProvider"
+            android:name="com.zhicheng.ffupdate.provider.FFFileProvider"
             android:authorities="${applicationId}.ffupdate.fileprovider"
             android:exported="false"
             android:grantUriPermissions="true" >
