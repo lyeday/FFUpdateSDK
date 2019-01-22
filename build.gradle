@@ -20,8 +20,24 @@ allprojects {
         google()
         jcenter()
     }
+    /**Xlint:deprecation检验过时api*/
+    gradle.projectsEvaluated {
+        tasks.withType(JavaCompile) {
+            options.compilerArgs << "-Xlint:unchecked" << "-Xlint:deprecation"
+        }
+    }
 }
 
 task clean(type: Delete) {
     delete rootProject.buildDir
+}
+
+tasks.getByPath(":textbannerlibrary:releaseAndroidJavadocs").enabled = false
+tasks.withType(Javadoc) {
+    options.addStringOption('Xdoclint:none', '-quiet') //忽略javadoc错误
+    options{
+        encoding "UTF-8"
+        charSet 'UTF-8'
+        links "http://docs.oracle.com/javase/7/docs/api"
+    }
 }
