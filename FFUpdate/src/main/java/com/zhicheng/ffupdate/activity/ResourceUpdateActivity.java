@@ -3,6 +3,7 @@ package com.zhicheng.ffupdate.activity;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.res.AssetManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -27,6 +28,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Enumeration;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
@@ -192,17 +194,29 @@ public class ResourceUpdateActivity extends Activity {
     }
 
     private void unzipSuccess(){
+        mHandle.post(new Runnable() {
+            @Override
+            public void run() {
+                mTitleView.setText("正在应用资源文件...");
+                mProgressBarView.setProgress(0);
+                mProgressView.setText("0%");
+            }
+        });
         File file = new File(mUnzipDirFile, index);
         if (file.exists()){
             Log.i(TAG, "unzipSuccess: 文件存在:"+file.getPath());
             File wwwDir = UpdateUtils.wwwDir(this);
             FileUtils.deleteDir(wwwDir);
             wwwDir.mkdirs();
+            //拷贝assets文件到www目录
+            copyAssets("www",wwwDir.getPath());
             final boolean copy = FileUtils.copy(mUnzipDirFile, wwwDir);
             mHandle.post(new Runnable() {
                 @Override
                 public void run() {
                     if (copy){
+                        mProgressBarView.setProgress(100);
+                        mProgressView.setText("100%");
                         SPUtils.init(ResourceUpdateActivity.this)
                                 .setAppResourceVersion(version)
                                 .setAppResourceIndex(index)
@@ -271,7 +285,50 @@ public class ResourceUpdateActivity extends Activity {
         mImageView.setAnimation(animation);
     }
 
-
+    /**
+     * 拷贝原始资源文件
+     * @param dirName www
+     * @param toPath 目标文件夹
+     */
+    private void copyAssets(String dirName,String toPath) {
+        AssetManager assetManager = getResources().getAssets();
+        try {
+            String[] wwwList = assetManager.list(dirName);
+            for (String www : wwwList) {
+                String subPath = dirName + File.separator + www;
+                File toFile = new File(toPath, www);
+                String[] list = assetManager.list(subPath);
+                if (list.length>0){ //文件夹
+                    toFile.mkdirs();
+                    copyAssets(subPath,toFile.getPath());
+                }else{//文件
+                    InputStream open = assetManager.open(subPath);
+                    FileOutputStream fileOutputStream = new FileOutputStream(toFile);
+                    byte buffer[] = new byte[1024];
+                    int readLen = 0;
+                    while ((readLen = open.read(buffer))>=0){
+                        fileOutputStream.write(buffer,0,readLen);
+                    }
+                    fileOutputStream.flush();
+                    fileOutputStream.close();
+                    open.close();
+                    buffer = null;
+                    final int progress = mProgressBarView.getProgress();
+                    if (progress<98) {
+                        mHandle.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                mProgressBarView.setProgress(progress+1);
+                                mProgressView.setText((progress+1)+"%");
+                            }
+                        });
+                    }
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     @Override
     public void onBackPressed() {

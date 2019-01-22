@@ -1,5 +1,7 @@
 package wu.zhicheng.com.ffupdatesdk;
 
+import android.content.res.AssetManager;
+import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,6 +14,11 @@ import com.zhicheng.ffupdate.utils.DeviceUtils;
 import com.zhicheng.ffupdate.utils.SPUtils;
 import com.zhicheng.ffupdate.utils.UpdateUtils;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+
 //./gradlew clean build bintrayUpload -PbintrayUser=voisen -PbintrayKey=5e1327b3fc386d03fb328e4c75e2270eef2962cc -PdryRun=false
 public class MainActivity extends AppCompatActivity {
 
@@ -22,11 +29,11 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         UpdateUtils.BASE_URL = "https://192.168.1.188/apps/";
-        SPUtils.init(this).setAppVersion(1).setAppReadyVersion(1).save();
+        SPUtils.init(this).setAppVersion(6).setAppReadyVersion(6).setAppResourceVersion(0).save();
         FFUpdate.shareUpdate().registerAppKey("QNLACVZPMviFLTkcsy1GoGcMrPiz4BTP",getApplication());
         FFUpdate.shareUpdate().checkUpdate();
         CordovaResourceUpdate.shareUpdate().registerKey("QNLACVZPMviFLTkcsy1GoGcMrPiz4BTP",getApplication());
-        CordovaResourceUpdate.shareUpdate().setCurrentResourceVersion(1);
+
         findViewById(R.id.btn_app_restart).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

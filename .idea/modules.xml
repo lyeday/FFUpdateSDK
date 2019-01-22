@@ -3,7 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/FFUpdate/FFUpdate.iml" filepath="$PROJECT_DIR$/FFUpdate/FFUpdate.iml" />
-      <module fileurl="file://$PROJECT_DIR$/FFUpdateSDK.iml" filepath="$PROJECT_DIR$/FFUpdateSDK.iml" />
+      <module fileurl="file://$PROJECT_DIR$/FFUpdateSDK-Android.iml" filepath="$PROJECT_DIR$/FFUpdateSDK-Android.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>

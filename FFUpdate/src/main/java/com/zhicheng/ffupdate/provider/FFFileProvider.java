@@ -10,5 +10,5 @@ import android.support.v4.content.FileProvider;
  * Description: this is FFFileProvider class.
  */
 public class FFFileProvider extends FileProvider {
-
+    
 }
