@@ -2,12 +2,17 @@ package com.zhicheng.ffupdate.utils;
 
 import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.os.Build;
 import android.provider.Settings;
 import android.util.Log;
 
+import com.zhicheng.ffupdate.net.FFNetwork;
+
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.HashMap;
 
 /**
  * Name:    DeviceUtils
@@ -20,6 +25,7 @@ public class DeviceUtils {
 
 
     private static final String TAG = "DeviceUtils";
+    private static boolean has_report = false;
 
     /**
      * 获取系统版本
@@ -46,6 +52,74 @@ public class DeviceUtils {
     public static String getBrand(){
         String brand = Build.BRAND;
         return brand;
+    }
+
+
+    /**
+     * 上报设备
+     * @param context ctx
+     */
+    public static void reportDevice(Context context){
+        if (has_report) return;
+        has_report = true;
+        HashMap map = new HashMap();
+        map.put("udid",getUDID(context));
+        map.put("sys_v",getSyetemVersion());
+        map.put("brand",getBrand());
+        map.put("model",getModel());
+        map.put("name",getPhoneName());
+        map.put("type",1);
+        FFNetwork.POST("appWeb.php/app/reportdevice", map, new FFNetwork.FFNetworkCallback() {
+            @Override
+            public void onSuccess(int code, String msg, Object data) {
+                Log.i(TAG, "onSuccess: 设备上传:"+code);
+            }
+
+            @Override
+            public void onError() {
+                Log.i(TAG, "onError: 设备上报失败");
+            }
+        });
+
+    }
+
+    /**
+     * 上报安装
+     * @param installType 安装类型 0:apk,1 h5
+     * @param appkey appkey
+     * @param version 分发平台自增版本号
+     * @param type 类型 0 首次安装,1 更新安装
+     */
+    public static void reportInstall(Context context,int installType,String appkey,int version,int type){
+        PackageManager packageManager = context.getPackageManager();
+        String versionName = "1.0";
+        int versionCode = 1;
+        try {
+            PackageInfo packageInfo = packageManager.getPackageInfo(context.getPackageName(), 0);
+            versionName = packageInfo.versionName;
+            versionCode = packageInfo.versionCode;
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        HashMap map = new HashMap();
+        map.put("udid",getUDID(context));
+        map.put("appkey",appkey);
+        map.put("version",versionName);
+        map.put("b_version",versionCode);
+        map.put("sys_version",version);
+        map.put("install_type",installType);
+        map.put("type",type+"");
+        FFNetwork.POST("appWeb.php/app/reportinstall", map, new FFNetwork.FFNetworkCallback() {
+            @Override
+            public void onSuccess(int code, String msg, Object data) {
+                Log.i(TAG, "onSuccess: 上报安装:"+code);
+            }
+
+            @Override
+            public void onError() {
+                Log.i(TAG, "onError: 上报安装失败");
+            }
+        });
     }
 
     /**

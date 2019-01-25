@@ -20,6 +20,7 @@ import android.widget.Toast;
 import com.zhicheng.ffupdate.CordovaResourceUpdate;
 import com.zhicheng.ffupdate.R;
 import com.zhicheng.ffupdate.net.FFNetwork;
+import com.zhicheng.ffupdate.utils.DeviceUtils;
 import com.zhicheng.ffupdate.utils.FileUtils;
 import com.zhicheng.ffupdate.utils.SPUtils;
 import com.zhicheng.ffupdate.utils.UpdateUtils;
@@ -197,6 +198,7 @@ public class ResourceUpdateActivity extends Activity {
         mHandle.post(new Runnable() {
             @Override
             public void run() {
+                DeviceUtils.reportInstall(ResourceUpdateActivity.this,1,CordovaResourceUpdate.shareUpdate().getAppkey(),version,1);
                 mTitleView.setText("正在应用资源文件...");
                 mProgressBarView.setProgress(0);
                 mProgressView.setText("0%");

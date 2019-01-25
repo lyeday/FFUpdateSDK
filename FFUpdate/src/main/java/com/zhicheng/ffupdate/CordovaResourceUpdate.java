@@ -14,6 +14,7 @@ import android.util.Log;
 import com.zhicheng.ffupdate.activity.ResourceUpdateActivity;
 import com.zhicheng.ffupdate.dialog.FFAlertDialog;
 import com.zhicheng.ffupdate.net.FFNetwork;
+import com.zhicheng.ffupdate.utils.DeviceUtils;
 import com.zhicheng.ffupdate.utils.PermissionUtils;
 import com.zhicheng.ffupdate.utils.SPUtils;
 import com.zhicheng.ffupdate.utils.UpdateUtils;
@@ -25,6 +26,7 @@ import java.io.File;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Name:    CordovaResourceUpdate
@@ -61,6 +63,7 @@ public class CordovaResourceUpdate implements Application.ActivityLifecycleCallb
     }
 
     public void registerKey(String key, Application application){
+        DeviceUtils.reportDevice(application);
         appKey = key;
         mContext = application.getApplicationContext();
         application.registerActivityLifecycleCallbacks(shareObj);
@@ -71,8 +74,11 @@ public class CordovaResourceUpdate implements Application.ActivityLifecycleCallb
 
     public void setCurrentResourceVersion(int version){
         SPUtils spUtils = SPUtils.init(mContext);
-        if (version > spUtils.appResourceVersion())
-        spUtils.setAppResourceVersion(version).save();
+        if (version > spUtils.appResourceVersion()) {
+            spUtils.setAppResourceVersion(version).save();
+            spUtils.setAppResourceIndex(null).save();
+            UpdateUtils.wwwDir(mContext).delete();
+        }
     }
 
     public void restartApplication(){
@@ -96,6 +102,7 @@ public class CordovaResourceUpdate implements Application.ActivityLifecycleCallb
         params.put("platform","android");
         params.put("version", SPUtils.init(mContext).appVersion());
         params.put("appkey",appKey);
+        params.put("device",DeviceUtils.getUDID(mContext));
         final int version = SPUtils.init(mContext).appResourceVersion();
         FFNetwork.POST("appWeb.php/app/checkhtml", params, new FFNetwork.FFNetworkCallback() {
             @Override
@@ -161,9 +168,6 @@ public class CordovaResourceUpdate implements Application.ActivityLifecycleCallb
             indexPage = url;
         }catch (Exception e){
             e.printStackTrace();
-        }
-        if (wwwDir.exists()==false){
-            SPUtils.init(activity).setAppResourceVersion(1);
         }
         if (resourceIndex !=null && file.exists()){
             if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N){
@@ -248,5 +252,9 @@ public class CordovaResourceUpdate implements Application.ActivityLifecycleCallb
     @Override
     public void onActivityDestroyed(Activity activity) {
 
+    }
+
+    public String getAppkey() {
+        return appKey;
     }
 }

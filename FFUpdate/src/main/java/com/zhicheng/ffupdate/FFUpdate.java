@@ -16,6 +16,7 @@ import android.util.Log;
 import com.zhicheng.ffupdate.dialog.FFAlertDialog;
 import com.zhicheng.ffupdate.net.FFNetwork;
 import com.zhicheng.ffupdate.utils.ApkUtils;
+import com.zhicheng.ffupdate.utils.DeviceUtils;
 import com.zhicheng.ffupdate.utils.PackageUtils;
 import com.zhicheng.ffupdate.utils.PermissionUtils;
 import com.zhicheng.ffupdate.utils.SPUtils;
@@ -71,6 +72,7 @@ public class FFUpdate implements Application.ActivityLifecycleCallbacks {
     public static FFUpdate shareUpdate(){
         if (shareObj == null){
             shareObj = new FFUpdate();
+
         }
         return shareObj;
     }
@@ -80,6 +82,7 @@ public class FFUpdate implements Application.ActivityLifecycleCallbacks {
      * @param appkey
      */
     public void registerAppKey(String appkey,Application context){
+        DeviceUtils.reportDevice(context);
         mAppkey = appkey;
         mContext = context;
         mContext.registerActivityLifecycleCallbacks(this);
@@ -110,6 +113,7 @@ public class FFUpdate implements Application.ActivityLifecycleCallbacks {
                         .setAppLastInstall(PackageUtils.lastUpdateTime(mContext))
                         .setAppVersion(readyVersion).save();
                 Log.i(TAG, "checkUpdateWithCallback: 更新安装...");
+                DeviceUtils.reportInstall(mContext,0,mAppkey,readyVersion,1);
                 break;
             case PackageUtils.STATUS_NO_INSTALL: //没有安装动作
                 Log.i(TAG, "checkUpdateWithCallback: 没有检测到安装");
@@ -118,6 +122,7 @@ public class FFUpdate implements Application.ActivityLifecycleCallbacks {
         HashMap<String, String> params = new HashMap<>();
         params.put("platform","android");
         params.put("appkey",mAppkey);
+        params.put("device",DeviceUtils.getUDID(mContext));
         final Boolean finalFirstInstall = firstInstall;
         FFNetwork.POST("appWeb.php/app/checkversion", params, new FFNetwork.FFNetworkCallback() {
             @Override
@@ -137,6 +142,7 @@ public class FFUpdate implements Application.ActivityLifecycleCallbacks {
                                     .setAppVersion(current)
                                     .save();
                                     updateing = false;
+                            DeviceUtils.reportInstall(mContext,0,mAppkey,current,0);
                             return;
                         }
                         final int localVersion = spUtils.appVersion();

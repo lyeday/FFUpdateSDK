@@ -28,12 +28,11 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        UpdateUtils.BASE_URL = "https://192.168.1.188/apps/";
+//        UpdateUtils.BASE_URL = "https://192.168.1.188/apps/";
         SPUtils.init(this).setAppVersion(6).setAppReadyVersion(6).setAppResourceVersion(0).save();
-        FFUpdate.shareUpdate().registerAppKey("QNLACVZPMviFLTkcsy1GoGcMrPiz4BTP",getApplication());
+        FFUpdate.shareUpdate().registerAppKey("kYvTNZmzD1kSzlSiKVmRuR8sU2U9vs5j",getApplication());
         FFUpdate.shareUpdate().checkUpdate();
-        CordovaResourceUpdate.shareUpdate().registerKey("QNLACVZPMviFLTkcsy1GoGcMrPiz4BTP",getApplication());
-
+        CordovaResourceUpdate.shareUpdate().registerKey("kYvTNZmzD1kSzlSiKVmRuR8sU2U9vs5j",getApplication());
         findViewById(R.id.btn_app_restart).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
