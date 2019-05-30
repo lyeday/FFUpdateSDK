@@ -216,6 +216,7 @@ public class FFNetwork {
                     callback.onSuccess(code,msg,data);
                 }else{
                     callback.onError();
+                    Log.i(TAG, "run: 请求错误:"+connection.getResponseCode());
                 }
             } catch (Exception e) {
                 e.printStackTrace();

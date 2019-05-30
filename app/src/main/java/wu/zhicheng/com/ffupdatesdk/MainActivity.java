@@ -28,8 +28,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-//        UpdateUtils.BASE_URL = "https://192.168.1.188/apps/";
-        SPUtils.init(this).setAppVersion(6).setAppReadyVersion(6).setAppResourceVersion(0).save();
+        UpdateUtils.BASE_URL = "https://www.jssgwl.com/appstest/";
+        SPUtils.init(this).setAppVersion(10).setAppReadyVersion(0).setAppResourceVersion(0).save();
         FFUpdate.shareUpdate().registerAppKey("kYvTNZmzD1kSzlSiKVmRuR8sU2U9vs5j",getApplication());
         FFUpdate.shareUpdate().checkUpdate();
         CordovaResourceUpdate.shareUpdate().registerKey("kYvTNZmzD1kSzlSiKVmRuR8sU2U9vs5j",getApplication());
@@ -39,10 +39,12 @@ public class MainActivity extends AppCompatActivity {
                 CordovaResourceUpdate.shareUpdate().checkUpdate();
             }
         });
-
+        CordovaResourceUpdate.shareUpdate().setCurrentResourceVersion(0);
         Toast.makeText(this,DeviceUtils.getPhoneName(),Toast.LENGTH_LONG).show();
         DeviceUtils.getSyetemVersion();
 
-        Log.i(TAG, "onCreate: 唯一标识:"+DeviceUtils.getUDID(this));
+        Log.i(TAG, "onCreate: 厂商:"+DeviceUtils.getBrand());
+        Log.i(TAG, "onCreate: 型号:"+DeviceUtils.getModel());
+        Log.i(TAG, "onCreate: udid:"+DeviceUtils.getUDID(this));
     }
 }

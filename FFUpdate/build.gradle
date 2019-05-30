@@ -3,7 +3,6 @@ apply plugin: 'com.novoda.bintray-release'
 
 android {
     compileSdkVersion 26
-
     defaultConfig {
         minSdkVersion 19
         targetSdkVersion 26
@@ -37,7 +36,7 @@ publish {
     userOrg = 'voisen'
     groupId = 'com.zhicheng'
     artifactId = 'ffupdate-release'
-    publishVersion = '1.3.5'
+    publishVersion = '1.4.1'
     desc = 'auto update for cordova and android application !'
     website = 'https://github.com/lyeday/FFUpdateSDK'
 }

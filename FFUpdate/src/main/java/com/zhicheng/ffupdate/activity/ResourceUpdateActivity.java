@@ -94,7 +94,7 @@ public class ResourceUpdateActivity extends Activity {
         mTitleView.setText("正在下载资源文件...");
         mProgressBarView.setProgress(0);
         mProgressView.setText("0%");
-        FFNetwork.download(UpdateUtils.BASE_URL+"appWeb.php/app/downloadUpdate?id="+id, zipFile, new FFNetwork.FFDownloadCallback() {
+        FFNetwork.download(UpdateUtils.BASE_URL+"index.php/app/downloadUpdate?id="+id, zipFile, new FFNetwork.FFDownloadCallback() {
             @Override
             public void progress(final long complete, final long total) {
                 mHandle.post(new Runnable() {
@@ -212,6 +212,14 @@ public class ResourceUpdateActivity extends Activity {
             wwwDir.mkdirs();
             //拷贝assets文件到www目录
             copyAssets("www",wwwDir.getPath());
+            mHandle.post(new Runnable() {
+                @Override
+                public void run() {
+                    mProgressBarView.setProgress(50);
+                    mTitleView.setText("正在做最后的配置...");
+                    mProgressView.setText("50%");
+                }
+            });
             final boolean copy = FileUtils.copy(mUnzipDirFile, wwwDir);
             mHandle.post(new Runnable() {
                 @Override
@@ -298,7 +306,7 @@ public class ResourceUpdateActivity extends Activity {
             String[] wwwList = assetManager.list(dirName);
             for (String www : wwwList) {
                 String subPath = dirName + File.separator + www;
-                File toFile = new File(toPath, www);
+                final File toFile = new File(toPath, www);
                 String[] list = assetManager.list(subPath);
                 if (list.length>0){ //文件夹
                     toFile.mkdirs();
@@ -315,16 +323,13 @@ public class ResourceUpdateActivity extends Activity {
                     fileOutputStream.close();
                     open.close();
                     buffer = null;
-                    final int progress = mProgressBarView.getProgress();
-                    if (progress<98) {
-                        mHandle.post(new Runnable() {
-                            @Override
-                            public void run() {
-                                mProgressBarView.setProgress(progress+1);
-                                mProgressView.setText((progress+1)+"%");
-                            }
-                        });
-                    }
+                    mHandle.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            mTitleView.setText("正在应用 "+toFile.getName());
+                            mProgressView.setText("");
+                        }
+                    });
                 }
             }
         } catch (IOException e) {

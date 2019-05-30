@@ -57,7 +57,7 @@ public class FFAlertDialog extends Dialog implements View.OnClickListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.dialog_custom);
+        setContentView(R.layout.dialog_ffupdate_custom);
         initUI();
         initListener();
     }

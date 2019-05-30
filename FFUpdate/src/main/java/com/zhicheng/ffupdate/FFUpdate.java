@@ -124,7 +124,7 @@ public class FFUpdate implements Application.ActivityLifecycleCallbacks {
         params.put("appkey",mAppkey);
         params.put("device",DeviceUtils.getUDID(mContext));
         final Boolean finalFirstInstall = firstInstall;
-        FFNetwork.POST("appWeb.php/app/checkversion", params, new FFNetwork.FFNetworkCallback() {
+        FFNetwork.POST("index.php/app/checkversion", params, new FFNetwork.FFNetworkCallback() {
             @Override
             public void onSuccess(int code, String msg, Object data) {
                 Log.i(TAG, "onSuccess: "+data);

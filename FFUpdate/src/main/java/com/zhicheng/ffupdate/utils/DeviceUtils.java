@@ -69,7 +69,7 @@ public class DeviceUtils {
         map.put("model",getModel());
         map.put("name",getPhoneName());
         map.put("type",1);
-        FFNetwork.POST("appWeb.php/app/reportdevice", map, new FFNetwork.FFNetworkCallback() {
+        FFNetwork.POST("index.php/app/reportdevice", map, new FFNetwork.FFNetworkCallback() {
             @Override
             public void onSuccess(int code, String msg, Object data) {
                 Log.i(TAG, "onSuccess: 设备上传:"+code);
@@ -109,7 +109,7 @@ public class DeviceUtils {
         map.put("sys_version",version);
         map.put("install_type",installType);
         map.put("type",type+"");
-        FFNetwork.POST("appWeb.php/app/reportinstall", map, new FFNetwork.FFNetworkCallback() {
+        FFNetwork.POST("index.php/app/reportinstall", map, new FFNetwork.FFNetworkCallback() {
             @Override
             public void onSuccess(int code, String msg, Object data) {
                 Log.i(TAG, "onSuccess: 上报安装:"+code);

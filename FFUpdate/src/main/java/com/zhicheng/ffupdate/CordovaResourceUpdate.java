@@ -104,7 +104,7 @@ public class CordovaResourceUpdate implements Application.ActivityLifecycleCallb
         params.put("appkey",appKey);
         params.put("device",DeviceUtils.getUDID(mContext));
         final int version = SPUtils.init(mContext).appResourceVersion();
-        FFNetwork.POST("appWeb.php/app/checkhtml", params, new FFNetwork.FFNetworkCallback() {
+        FFNetwork.POST("index.php/app/checkhtml", params, new FFNetwork.FFNetworkCallback() {
             @Override
             public void onSuccess(int code, String msg, Object data) {
                 Log.i(TAG, "onSuccess: 请求结果:"+data);
