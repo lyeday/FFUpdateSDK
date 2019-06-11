@@ -19,7 +19,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
-//./gradlew clean build bintrayUpload -PbintrayUser=voisen -PbintrayKey=5e1327b3fc386d03fb328e4c75e2270eef2962cc -PdryRun=false
+//./gradlew clean build bintrayUpload -PbintrayUser=voisen -PbintrayKey= -PdryRun=false
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "MainActivity";
